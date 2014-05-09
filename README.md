@@ -14,4 +14,4 @@ jira_credentials - a jira user credentals that can use the jira API and read iss
 jira_project_key - the jira project key prefix (e.g. mex,rcon)
 
 ## Examples
-lein run --git-command "git branch -r" --dir /Users/talgiat/dev/mex --credentials mex_ro/mex_ro --key mex
+lein run --git-command "git branch -r" --dir /Users/talgiat/dev/mex --credentials mex_ro/read_only --key mex
