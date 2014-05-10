@@ -30,7 +30,7 @@
   (let [key-pattren (str "(?i)" project-key "-[0-9]+")
         key-regex (re-pattern key-pattren)]
     (when-let [branches (seq (re-seq key-regex (get-git-branches command dir)))]
-      (println (table (get-issues-info branches credentials))))))
+      (println (table (sort-by :key (get-issues-info branches credentials)))))))
 
 (def cli-options
   [["-gc" "--git-command command" "git command to list branches"
