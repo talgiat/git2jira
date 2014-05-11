@@ -3,9 +3,9 @@
 Retrieves information about git branches from jira as long a branches names are jira issue keys. For example names are foo-1234, bar-2001 etc. 
 
 ## Usage
-
+```bash
 $ lein run --git-command git_branch_comment --dir git_project_dir --credentials jira_credentails --key jira_project_key
-
+```
 ## Options
 
 git_branch_comment - a git branch command to list all branches you want to lookup in jira
