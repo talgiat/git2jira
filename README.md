@@ -1,6 +1,6 @@
 # git2jira
 
-Retrieves information about git branches from jira as long a the branches naming adheres to the following convention: branch name is the jira story or bug key. For example for media express branch names are mex-1234, mex-2001 etc. 
+Retrieves information about git branches from jira as long a branches names are jira issue keys. For example for media express branch names are mex-1234, mex-2001 etc. 
 
 ## Usage
 
