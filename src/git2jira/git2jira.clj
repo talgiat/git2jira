@@ -16,7 +16,7 @@
 
 (defn build-issues-view-model [issues fields-formatters]
   (let [formatters (apply juxt (map #(fn[fields] 
-                                       [(first %) ((last %) fields)])
+                                        [(first %) ((last %) fields)])
                                     fields-formatters))]
     (map #(into {} (concat [[:key (.toLowerCase (:key %))]] (-> % :fields formatters))) issues)))
 
