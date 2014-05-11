@@ -18,7 +18,8 @@
   (let [formatters (apply juxt (map #(fn[fields] 
                                         [(first %) ((last %) fields)])
                                     fields-formatters))]
-    (map #(into {} (concat [[:key (.toLowerCase (:key %))]] (-> % :fields formatters))) issues)))
+    (map #(into {} (concat [[:key (.toLowerCase (:key %))]] (-> % :fields formatters))) 
+         issues)))
 
 (defn get-git-branches [command dir]
   (:out (apply sh (concat (str/split command #"\s") [:dir dir]))))
