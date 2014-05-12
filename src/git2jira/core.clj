@@ -11,15 +11,21 @@
 (def cli-options
   [["-gc" "--git-command command" "git command to list branches"
     :default "git branch -r"]
-   ["-d" "--dir directory" "git project directory"]
-   ["-c" "--credentials jira-credentials" "jira credentials for the project"]
+   ["-d" "--dir directory" "git project directory"
+    :validate [#(not-nil? %) "project directory is mandatory"]]
+   ["-c" "--credentials jira-credentials" "jira credentials for the project"
+    :validate [#(not-nil? %) "git credentials are mandatory"]]
    ["-k" "--key project-key" "jira project key prefix"
-    :default "mex"]
-   ["-u" "--api-url jira-api-url" "jira api url"]
+    :default "mex" ]
+   ["-u" "--api-url jira-api-url" "jira api url"
+    :validate [#(not-nil? %) "jira api url is mandatory"]]
    ["-h" "--help"]])
 
 (defn -main [& args]
-  (let [opts (:options (parse-opts args cli-options))
-        {:keys [git-command dir credentials key api-url]} opts]
-    (git2jira/branches-info git-command dir credentials key fields-formatters api-url)
+  (let [opts (parse-opts args cli-options)
+        {:keys [git-command dir credentials key api-url help]} (:options opts)]
+    (println opts)
+    (if help
+      (println (:summary opts))
+      (git2jira/branches-info git-command dir credentials key fields-formatters api-url))
     (System/exit 0)))

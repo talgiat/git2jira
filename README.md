@@ -20,7 +20,7 @@ $ lein run --git-command git_branch_comment --dir git_project_dir --credentials 
 
 ### Examples
 ```bash
-lein run --git-command "git branch -r" --dir /path/to/project/folder --credentials jira_user/jira_password --key bar --api_url http://your.jira.domain/rest/api/2/search
+lein run --git-command "git branch -r" --dir /path/to/project/folder --credentials jira_user/jira_password --key bar --api-url http://your.jira.domain/rest/api/2/search
 ```
 
 ### License
