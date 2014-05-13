@@ -7,8 +7,8 @@
             [git2jira.utils :refer :all]))
 (defn get-issues [ids fields credentials api-url]
   (let [base-url (str api-url "?fields=$fields$&jql=issuekey%20in%20($ids$)")
-        fields (coll2string (map name fields))
-        ids (coll2string ids)
+        fields (str/join "," (map name fields))
+        ids (str/join "," ids)
         url (str/replace (str/replace base-url #"\$ids\$" ids) #"\$fields\$" fields)
         result (sh "curl" "-u" credentials "-X" "GET" "-H" "Accept: application/json" url)]
     (:issues (json/read-str (:out result) :key-fn keyword))))

@@ -1,31 +1,52 @@
 (ns git2jira.core
   (:require [clojure.tools.cli :refer [parse-opts]]
             [git2jira.git2jira :as git2jira]
+            [clojure.string :as str]
             [git2jira.utils :refer :all])
   (:gen-class))
 
 (def fields-formatters { :summary #(:summary %)
                          :status #(get-in % [:status :name]) 
-                         :fixVersions #(coll2string (map :name (:fixVersions %)))})
+                         :fixVersions #(str/join "," (map :name (:fixVersions %)))})
 
 (def cli-options
-  [["-gc" "--git-command command" "git command to list branches"
+  [["-gc" "--git-command <git command>" "git command to list branches"
     :default "git branch -r"]
-   ["-d" "--dir directory" "git project directory"
+   ["-d" "--dir <directory>" "git project directory"
     :validate [#(not-nil? %) "project directory is mandatory"]]
-   ["-c" "--credentials jira-credentials" "jira credentials for the project"
+   ["-c" "--credentials <username:password>" "jira credentials in the format- jira_username:jira_password"
     :validate [#(not-nil? %) "git credentials are mandatory"]]
-   ["-k" "--key project-key" "jira project key prefix"
-    :default "mex" ]
-   ["-u" "--api-url jira-api-url" "jira api url"
+   ["-k" "--key <project-key>" "jira project key prefix, e.g. FOO" ]
+   ["-u" "--api-url <url>" "jira api url, e.g. http://your.jira.domain/rest/api/2/search"
     :validate [#(not-nil? %) "jira api url is mandatory"]]
-   ["-h" "--help"]])
+   ["-h" "--help" "print these help instructions"]])
+
+(defn get-summary [option] 
+  (let [args (vec (take-while string? option))
+        [short-arg long-arg desc] args
+        default-index (.indexOf option :default)
+        args-str (str short-arg ", " long-arg)]
+    (cond 
+      (> default-index -1) [args-str (str desc ". default: " (nth option (inc default-index)))]
+      desc [args-str desc]
+      :else [args-str])))
+
+(defn usage [options]
+  (let [options-summary (map #(str/join "\n\t" %) (map get-summary options))
+        summary (str/join \newline options-summary)]
+    (->> ["This is my program. There are many like it, but this one is mine."
+          ""
+          "Usage: lein run [options]"
+          ""
+          "Options:"
+          summary
+          ""]
+         (str/join \newline))))
 
 (defn -main [& args]
   (let [opts (parse-opts args cli-options)
         {:keys [git-command dir credentials key api-url help]} (:options opts)]
-    (println opts)
     (if help
-      (println (:summary opts))
+      (println (usage cli-options))
       (git2jira/branches-info git-command dir credentials key fields-formatters api-url))
     (System/exit 0)))
