@@ -5,9 +5,10 @@
             [git2jira.utils :refer :all])
   (:gen-class))
 
-(def fields-formatters { :summary #(:summary %)
+(def fields-formatters { :summary #(subs (:summary %) 0 (min (count (:summary %)) 100))
                          :status #(get-in % [:status :name]) 
-                         :fixVersions #(str/join "," (map :name (:fixVersions %)))})
+                         :fixVersions #(str/join "," (map :name (:fixVersions %)))
+                         :assignee #(get-in % [:assignee :displayName])})
 
 (def cli-options
   [["-gc" "--git-command <git command>" "git command to list branches"
