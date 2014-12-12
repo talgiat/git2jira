@@ -5,6 +5,7 @@
             [clojure.string :as str]
             [doric.core :refer [table]]
             [git2jira.utils :refer :all]))
+
 (defn get-issues [ids fields credentials api-url]
   (let [base-url (str api-url "?fields=$fields$&jql=issuekey%20in%20($ids$)")
         fields (str/join "," (map name fields))
