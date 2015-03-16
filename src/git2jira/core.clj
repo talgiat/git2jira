@@ -1,8 +1,7 @@
 (ns git2jira.core
   (:require [clojure.tools.cli :refer [parse-opts]]
             [git2jira.git2jira :as git2jira]
-            [clojure.string :as str]
-            [git2jira.utils :refer :all])
+            [clojure.string :as str])
   (:gen-class))
 
 (def fields-formatters { :summary #(subs (:summary %) 0 (min (count (:summary %)) 100))
@@ -14,12 +13,12 @@
   [["-gc" "--git-command <git command>" "git command to list branches"
     :default "git branch -r"]
    ["-d" "--dir <directory>" "git project directory"
-    :validate [#(not-nil? %) "project directory is mandatory"]]
+    :validate [some? "project directory is mandatory"]]
    ["-c" "--credentials <username:password>" "jira credentials in the format- jira_username:jira_password"
-    :validate [#(not-nil? %) "git credentials are mandatory"]]
+    :validate [some? "git credentials are mandatory"]]
    ["-k" "--key <project-key>" "jira project key prefix, e.g. FOO" ]
    ["-u" "--api-url <url>" "jira api url, e.g. http://your.jira.domain/rest/api/2/search"
-    :validate [#(not-nil? %) "jira api url is mandatory"]]
+    :validate [some? "jira api url is mandatory"]]
    ["-h" "--help" "print these help instructions"]])
 
 (defn get-summary [option] 
