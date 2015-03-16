@@ -1,3 +1,5 @@
+[![Circle CI](https://circleci.com/gh/talgiat/git2jira/tree/master.svg?style=shield)](https://circleci.com/gh/talgiat/git2jira/tree/master)
+
 ### git2jira
 Retrieves information about git branches from jira as long a branches names are jira issue keys. For example names are foo-1234, bar-2001 etc. By default the follwoing fields are retrieved: key, summary, status and fixVersions. Key will always be fetches as the first column, but you can pass the other fields as an argument to git2jira/branches-info function. The fields argument should be a clojure map of the form:
 ```
