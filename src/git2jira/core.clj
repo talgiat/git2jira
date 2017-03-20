@@ -4,10 +4,14 @@
             [clojure.string :as str])
   (:gen-class))
 
-(def fields-formatters { :summary #(subs (:summary %) 0 (min (count (:summary %)) 100))
-                         :status #(get-in % [:status :name]) 
-                         :fixVersions #(str/join "," (map :name (:fixVersions %)))
-                         :assignee #(get-in % [:assignee :displayName])})
+(def fields-formatters { :summary {:f #(subs (:summary %) 0 (min (count (:summary %)) 100))}
+                         :status {:f #(get-in % [:status :name])}
+                         :customfield_11170 {:f #(let [data (:customfield_11170 %)
+                                                       f (fn [s]
+                                                           (->> s (re-find #"name=([^,]*)") second))]
+                                                   (str/join "," (map f data)))
+                                             :alias :sprint}
+                         :assignee {:f #(get-in % [:assignee :displayName])}})
 
 (def cli-options
   [["-gc" "--git-command <git command>" "git command to list branches"
