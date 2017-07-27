@@ -6,11 +6,7 @@
 
 (def fields-formatters { :summary {:f #(subs (:summary %) 0 (min (count (:summary %)) 100))}
                          :status {:f #(get-in % [:status :name])}
-                         :customfield_11170 {:f #(let [data (:customfield_11170 %)
-                                                       f (fn [s]
-                                                           (->> s (re-find #"name=([^,]*)") second))]
-                                                   (str/join "," (map f data)))
-                                             :alias :sprint}
+                         :fixVersions {:f #(str/join "," (map :name (:fixVersions %)))}
                          :assignee {:f #(get-in % [:assignee :displayName])}})
 
 (def cli-options

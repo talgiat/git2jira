@@ -6,6 +6,5 @@
                  [org.clojure/data.json "0.2.6"]
                  [org.clojure/test.check "0.9.0"]
                  [org.clojure/tools.cli "0.3.5"]
-                 [com.gfredericks/test.chuck "0.2.7"]
                  [doric "0.9.0"]]
   :main git2jira.core)

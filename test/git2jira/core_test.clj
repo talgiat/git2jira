@@ -23,4 +23,4 @@
                                             "GTJ" 
                                             {} 
                                             "http://jira.amers.ime.reuters.com/rest/api/2/search")
-                   ::failed-calling-jira-api)))
+                   :failed-parsing-json-response)))
